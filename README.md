@@ -40,9 +40,9 @@ It is super easy to get started with your first project.
 
 You can download the package from the  [latest stable release](https://github.com/alibaba/nacos/releases).  
 
-Take release nacos-server-0.3.0.zip for example.
+Take release nacos-server-0.4.0.zip for example.
 ```
-unzip nacos-server-0.3.0.zip
+unzip nacos-server-0.4.0.zip
 cd nacos/bin 
 ``` 
 
@@ -65,7 +65,7 @@ For more details, see [quick-start.](https://nacos.io/en-us/docs/quick-start.htm
 
 * [Quick start with dubbo](https://nacos.io/en-us/docs/use-nacos-with-dubbo.html)
 
-* [quick start with spring cloud](https://nacos.io/en-us/docs/quick-start-spring-cloud.html)
+* [Quick start with spring cloud](https://nacos.io/en-us/docs/quick-start-spring-cloud.html)
 
 * [Quick start with kubernetes](https://nacos.io/en-us/docs/use-nacos-with-kubernetes.html)
 
@@ -74,19 +74,29 @@ For more details, see [quick-start.](https://nacos.io/en-us/docs/quick-start.htm
 
 You can view the full documentation from the [Nacos website](https://nacos.io/en-us/docs/what-is-nacos.html).
 
+All the latest and long-term notice can also be found here from [Github notice issue](https://github.com/alibaba/nacos/labels/notice)
+
+
+## Contributing
+
+Contributors are welcomed to join Nacos project. Please check [CONTRIBUTING](./CONTRIBUTING.md) about how to contribute to this project.
+
 ## Other Related Project Repositories
 
 * [nacos-spring-project](https://github.com/nacos-group/nacos-spring-project) provides the integration functionality for Spring.
-* [nacos-sync](https://github.com/nacos-group/nacos-sync) is a tool to synchronize the service registration information from other tools like eureka, zookeeper, etc, to Nacos.
+* [nacos-group](https://github.com/nacos-group) is the reposity that hosts the eco tools for Nacos, such as SDK, synchronization tool, etc.
 * [spring-cloud-alibaba](https://github.com/spring-cloud-incubator/spring-cloud-alibaba) provides the one-stop solution for application development over Alibaba middleware which includes Nacos.
 
-### Contact
+## Contact
 
-* #### Gitter-[Nacos Gitter](https://gitter.im/alibaba/nacos)
+* [Gitter](https://gitter.im/alibaba/nacos): Nacos's IM tool for community messaging, collaboration and discovery.
+* [Twitter](https://twitter.com/nacos2): Follow along for latest nacos news on Twitter.
+* [Weibo](https://weibo.com/u/6574374908): Follow along for latest nacos news on Weibo (Twitter of China version).
+* [Nacos Segmentfault](https://segmentfault.com/t/nacos): Get latest notice and prompt help from Segmentfault.
+* Email Group:
+     * users-nacos@googlegroups.com: Nacos usage general discussion.
+     * dev-nacos@googlegroups.com: Nacos developer discussion (APIs, feature design, etc).
+     * commits-nacos@googlegroups.com: Commits notice, very high frequency.
+* Join us from wechat. Welcome words: Nacos.
 
-* #### Weibo-[Nacos Weibo](https://weibo.com/u/6574374908)
-
-* #### Segmentfault-[Nacos Segmentfault](https://segmentfault.com/t/nacos)
-
-* #### Mailing list-[nacos\_dev@linux.alibaba.com](mailto:nacos_dev@linux.alibaba.com).
-
+![cwex](http://acm-public.oss-cn-hangzhou.aliyuncs.com/xuc.png)
