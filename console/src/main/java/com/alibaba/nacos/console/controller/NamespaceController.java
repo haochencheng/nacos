@@ -39,75 +39,69 @@ import com.alibaba.nacos.console.model.NamespaceAllInfo;
 
 /**
  * namespace service
- * 
- * @author Nacos
  *
+ * @author Nacos
  */
 @Controller
 @RequestMapping("/v1/console/namespaces")
 public class NamespaceController {
 
-	@Autowired
-	private transient PersistService persistService;
+    @Autowired
+    private transient PersistService persistService;
 
-	/**
-	 * Get namespace list
-	 * 
-	 * @param request
-	 *            request
-	 * @param response
-	 *            response
-	 * @return namespace list
-	 */
-	@ResponseBody
-	@RequestMapping(method = RequestMethod.GET)
-	public RestResult<List<Namespace>> getNamespaces(HttpServletRequest request, HttpServletResponse response) {
-		RestResult<List<Namespace>> rr = new RestResult<List<Namespace>>();
-		rr.setCode(200);
-		// TODO 获取用kp
-		List<TenantInfo> tenantInfos = persistService.findTenantByKp("1");
-		Namespace namespace0 = new Namespace("", "Public", 200, persistService.configInfoCount(""), 0);
-		List<Namespace> namespaces = new ArrayList<Namespace>();
-		namespaces.add(namespace0);
-		for (TenantInfo tenantInfo : tenantInfos) {
-			int configCount = persistService.configInfoCount(tenantInfo.getTenantId());
-			Namespace namespaceTmp = new Namespace(tenantInfo.getTenantId(), tenantInfo.getTenantName(), 200,
-					configCount, 2);
-			namespaces.add(namespaceTmp);
-		}
-		rr.setData(namespaces);
-		return rr;
-	}
+    /**
+     * Get namespace list
+     *
+     * @param request  request
+     * @param response response
+     * @return namespace list
+     */
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET)
+    public RestResult<List<Namespace>> getNamespaces(HttpServletRequest request, HttpServletResponse response) {
+        RestResult<List<Namespace>> rr = new RestResult<List<Namespace>>();
+        rr.setCode(200);
+        // TODO 获取用kp
+        List<TenantInfo> tenantInfos = persistService.findTenantByKp("1");
+        Namespace namespace0 = new Namespace("", "Public", 200, persistService.configInfoCount(""), 0);
+        List<Namespace> namespaces = new ArrayList<Namespace>();
+        namespaces.add(namespace0);
+        for (TenantInfo tenantInfo : tenantInfos) {
+            int configCount = persistService.configInfoCount(tenantInfo.getTenantId());
+            Namespace namespaceTmp = new Namespace(tenantInfo.getTenantId(), tenantInfo.getTenantName(), 200,
+                configCount, 2);
+            namespaces.add(namespaceTmp);
+        }
+        rr.setData(namespaces);
+        return rr;
+    }
 
-	/**
-	 * get namespace all info by namespace id
-	 * 
-	 * @param request
-	 *            request
-	 * @param response
-	 *            response
-	 * @param namespaceId
-	 *            namespaceId
-	 * @return namespace all info
-	 */
-	@ResponseBody
-	@RequestMapping(params = "show=all", method = RequestMethod.GET)
-	public NamespaceAllInfo getNamespace(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("namespaceId") String namespaceId) {
-		// TODO 获取用kp
-		if (StringUtils.isBlank(namespaceId)) {
-			int configCount = persistService.configInfoCount();
-			NamespaceAllInfo namespaceTmp = new NamespaceAllInfo(namespaceId, "Public", 200, configCount, 0,
-					"Public Namespace");
-			return namespaceTmp;
-		} else {
-			TenantInfo tenantInfo = persistService.findTenantByKp("1", namespaceId);
-			int configCount = persistService.configInfoCount(namespaceId);
-			NamespaceAllInfo namespaceTmp = new NamespaceAllInfo(namespaceId, tenantInfo.getTenantName(), 200,
-					configCount, 2, tenantInfo.getTenantDesc());
-			return namespaceTmp;
-		}
-	}
+    /**
+     * get namespace all info by namespace id
+     *
+     * @param request     request
+     * @param response    response
+     * @param namespaceId namespaceId
+     * @return namespace all info
+     */
+    @ResponseBody
+    @RequestMapping(params = "show=all", method = RequestMethod.GET)
+    public NamespaceAllInfo getNamespace(HttpServletRequest request, HttpServletResponse response,
+                                         @RequestParam("namespaceId") String namespaceId) {
+        // TODO 获取用kp
+        if (StringUtils.isBlank(namespaceId)) {
+            int configCount = persistService.configInfoCount();
+            NamespaceAllInfo namespaceTmp = new NamespaceAllInfo(namespaceId, "Public", 200, configCount, 0,
+                "Public Namespace");
+            return namespaceTmp;
+        } else {
+            TenantInfo tenantInfo = persistService.findTenantByKp("1", namespaceId);
+            int configCount = persistService.configInfoCount(namespaceId);
+            NamespaceAllInfo namespaceTmp = new NamespaceAllInfo(namespaceId, tenantInfo.getTenantName(), 200,
+                configCount, 2, tenantInfo.getTenantDesc());
+            return namespaceTmp;
+        }
+    }
 
 	/**
 	 * create namespace

@@ -13,10 +13,13 @@
 
 import React from 'react';
 import { request } from '../../../globalLib';
-import { Dialog, Form, Input, Select, Message } from '@alifd/next';
-import { I18N, DIALOG_FORM_LAYOUT } from './constant';
+import { Dialog, Form, Input, Select, Message, ConfigProvider } from '@alifd/next';
+import { DIALOG_FORM_LAYOUT } from './constant';
 
+@ConfigProvider.config
 class EditServiceDialog extends React.Component {
+  static displayName = 'EditServiceDialog';
+
   constructor(props) {
     super(props);
     this.state = {
@@ -45,11 +48,17 @@ class EditServiceDialog extends React.Component {
   onConfirm() {
     const { isCreate } = this.state;
     const editService = Object.assign({}, this.state.editService);
-    const { name, protectThreshold, healthCheckMode, metadataText } = editService;
+    const { name, protectThreshold, healthCheckMode, metadataText, selector } = editService;
     request({
       method: isCreate ? 'PUT' : 'POST',
-      url: `/nacos/v1/ns/service/${isCreate ? 'create' : 'update'}`,
-      data: { serviceName: name, protectThreshold, healthCheckMode, metadata: metadataText },
+      url: `v1/ns/service/${isCreate ? 'create' : 'update'}`,
+      data: {
+        serviceName: name,
+        protectThreshold,
+        healthCheckMode,
+        metadata: metadataText,
+        selector,
+      },
       dataType: 'text',
       beforeSend: () => this.setState({ loading: true }),
       success: res => {
@@ -77,19 +86,26 @@ class EditServiceDialog extends React.Component {
   }
 
   render() {
+    const { locale = {} } = this.props;
     const { isCreate, editService, editServiceDialogVisible } = this.state;
-    const { name, protectThreshold, healthCheckMode, metadataText } = editService;
+    const {
+      name,
+      protectThreshold,
+      healthCheckMode,
+      metadataText,
+      selector = { type: 'none' },
+    } = editService;
     return (
       <Dialog
         className="service-detail-edit-dialog"
-        title={isCreate ? I18N.CREATE_SERVICE : I18N.UPDATE_SERVICE}
+        title={isCreate ? locale.createService : locale.updateService}
         visible={editServiceDialogVisible}
         onOk={() => this.onConfirm()}
         onCancel={() => this.hide()}
         onClose={() => this.hide()}
       >
         <Form {...DIALOG_FORM_LAYOUT}>
-          <Form.Item label={`${I18N.SERVICE_NAME}:`}>
+          <Form.Item label={`${locale.serviceName}:`}>
             {!isCreate ? (
               <p>{name}</p>
             ) : (
@@ -100,31 +116,52 @@ class EditServiceDialog extends React.Component {
               />
             )}
           </Form.Item>
-          <Form.Item label={`${I18N.PROTECT_THRESHOLD}:`}>
+          <Form.Item label={`${locale.protectThreshold}:`}>
             <Input
               className="in-text"
               value={protectThreshold}
               onChange={protectThreshold => this.onChangeCluster({ protectThreshold })}
             />
           </Form.Item>
-          <Form.Item label={`${I18N.HEALTH_CHECK_PATTERN}:`}>
+          <Form.Item label={`${locale.healthCheckPattern}:`}>
             <Select
               className="in-select"
               defaultValue={healthCheckMode}
               onChange={healthCheckMode => this.onChangeCluster({ healthCheckMode })}
             >
-              <Select.Option value="server">{I18N.HEALTH_CHECK_PATTERN_SERVICE}</Select.Option>
-              <Select.Option value="client">{I18N.HEALTH_CHECK_PATTERN_CLIENT}</Select.Option>
-              <Select.Option value="none">{I18N.HEALTH_CHECK_PATTERN_NONE}</Select.Option>
+              <Select.Option value="server">{locale.healthCheckPatternService}</Select.Option>
+              <Select.Option value="client">{locale.healthCheckPatternClient}</Select.Option>
+              <Select.Option value="none">{locale.healthCheckPatternNone}</Select.Option>
             </Select>
           </Form.Item>
-          <Form.Item label={`${I18N.METADATA}:`}>
+          <Form.Item label={`${locale.metadata}:`}>
             <Input
               className="in-text"
               value={metadataText}
               onChange={metadataText => this.onChangeCluster({ metadataText })}
             />
           </Form.Item>
+          <Form.Item label={`${locale.type}:`}>
+            <Select
+              className="in-select"
+              defaultValue={selector.type}
+              onChange={type => this.onChangeCluster({ selector: { ...selector, type } })}
+            >
+              <Select.Option value="label">{locale.typeLabel}</Select.Option>
+              <Select.Option value="none">{locale.typeNone}</Select.Option>
+            </Select>
+          </Form.Item>
+          {selector.type === 'label' && (
+            <Form.Item label={`${locale.selector}:`}>
+              <Input.TextArea
+                className="in-text"
+                value={selector.expression}
+                onChange={expression =>
+                  this.onChangeCluster({ selector: { ...selector, expression } })
+                }
+              />
+            </Form.Item>
+          )}
         </Form>
       </Dialog>
     );
